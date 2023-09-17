@@ -13,3 +13,16 @@ Content-Type: application/json
     "name": "Test Person",
     "subscribedToChannel": "Test Channel"
 }
+
+###
+
+DELETE http://127.0.0.1:3000/subscribers/65075e55b992bd541d178c6a
+
+###
+
+PATCH http://127.0.0.1:3000/subscribers/650755db20b88bc71e1f4829
+Content-Type: application/json
+
+{
+    "name": "New Test Name"
+}

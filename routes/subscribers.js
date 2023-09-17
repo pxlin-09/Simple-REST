@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const Subscriber = require('../models/subscriber')
-const subscriber = require("../models/subscriber")
+
 // Get all routes
 router.get('/', async (req, res) => {
     try {
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 
 // Get one route
 router.get('/:id', getSubscriber, (req, res) => {
-    res.send(res.subscriber.name)
+    res.json(res.subscriber)
 })
 
 // Create one route
@@ -37,13 +37,29 @@ router.post('/', async (req, res) => {
 
 
 // Update one route
-router.patch('/:id', (req, res) => {
-
+router.patch('/:id', getSubscriber, async (req, res) => {
+    if (req.body.name != null) {
+        res.subscriber.name = req.body.name
+    }
+    if (req.body.subscribedToChannel != null) {
+        res.subscriber.subscribedToChannel = req.body.subscribedToChannel
+    }
+    try {
+        const updatedSubscriber = await res.subscriber.save()
+        res.json(updatedSubscriber)
+    } catch (err) {
+        res.status(400).json({ messgae: err.message })
+    }
 })
 
 // Delete route
-router.delete('/:id', (req, res) => {
-
+router.delete('/:id', getSubscriber, async (req, res) => {
+    try {
+        await res.subscriber.deleteOne()
+        res.json({ message: "Removed subscriber" })
+    } catch (err) {
+        res.status(500).json({ messgae: err.message })
+    }
 })
 
 async function getSubscriber(req, res, next) {
