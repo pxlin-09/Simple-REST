@@ -3,3 +3,13 @@ GET http://127.0.0.1:3000/subscribers/12
 ###
 
 GET http://127.0.0.1:3000/subscribers/
+
+###
+
+POST http://127.0.0.1:3000/subscribers
+Content-Type: application/json
+
+{
+    "name": "Test Person",
+    "subscribedToChannel": "Test Channel"
+}
